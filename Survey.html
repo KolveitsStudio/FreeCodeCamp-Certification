@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="FCCAMP\Survey.css" />
+    <title>Survey form</title>
+  </head>
+    <body>
+        <div class="top-text">
+            <h1 id="title">Pets survey</h1>
+            <p id="description">Here to gather information about your buddy</p>
+        </div>
+        
+        <div class="survey-wrapper">
+            <form id="survey-form">
+
+                <div class="form-section"> 
+                    <label id="name-label">Name
+                        <input id="name" type="text" placeholder="John" required/>
+                    </label>
+                    <label id="email-label">E-mail
+                        <input id="email" type="email" placeholder="bestfriend@gmail.com" required/>
+                    </label>
+                    <label id="number-label">Age
+                        <input id="number" type="number" min="13" max="120" placeholder="14"/>
+                    </label>
+                </div>
+
+            <div class="form-section">
+                <h3>What type of pet do you have?</h3>
+                <select id="dropdown">
+                    <option>Other</option>
+                    <option>Dog</option>
+                    <option>Cat</option>
+                    <option>Bird</option>
+                    <option>Fish</option>
+                    <option>Hamster</option>
+                    <option>Rabbit</option>
+                    <option>Guinea pig</option>
+                    <option>Reptile</option>
+                    <option>Turtle</option>
+                    <option>Ferret</option>
+                </select>
+            </div>
+
+            <div class="form-section">
+                <h3>Which best describes your pet?</h3>
+                <label>
+                    <input type="radio" name="proff" value="1" checked/>Energetic
+                </label>
+                <label>
+                    <input type="radio" name="proff" value="2" />Calm
+                </label>
+            </div>
+
+            <div class="form-section">
+                <h3>Which adjectives best describe your pet?</h3>
+                <label><input type="checkbox" value="1">Sleepy</label>
+                <label><input type="checkbox" value="2"/>Wild</label>
+                <label><input type="checkbox" value="3"/>Hungry</label>
+                <label><input type="checkbox" value="4"/>Happy</label>
+                <label><input type="checkbox" value="5"/>Loyal</label>
+                <label><input type="checkbox" value="6"/>Playful</label>
+                <label><input type="checkbox" value="7"/>Cuddly</label>
+                <label><input type="checkbox" value="8"/>Adventurous</label>
+                <label><input type="checkbox" value="9"/>Protective</label>
+                <label><input type="checkbox" value="10"/>Obedient</label>
+                <label><input type="checkbox" value="11"/>Curious</label>
+            </div>
+            <div class="form-section">
+                <h3>Any fun stories about your pet?</h3>
+                <textarea placeholder="This one time..."></textarea>
+                <input type="submit" id="submit"/>
+            </div>
+        </form>
+    </div>
+  </body>
+</html>
