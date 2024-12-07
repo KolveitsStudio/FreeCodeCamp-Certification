@@ -1,0 +1,85 @@
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    min-width: 290px;
+  color: #4d4e53;
+  background-color: #ffffff;
+  font-family: 'Open Sans', Arial, sans-serif;
+  line-height: 1.5;
+}
+a{
+    text-decoration: none;
+    color:inherit;
+}
+#navbar{
+    position: fixed;
+    min-width: 290px;
+    top: 0px;
+    left: 0px;
+    width: 260px;
+    height: 100%;
+    border-right: solid;
+    border-color: rgba(0, 22, 22, 0.4);
+  }
+ 
+nav > header{
+    width:100%;
+    height:60px;
+    border-bottom: 1px solid black;
+}
+nav > header > h1{
+    padding-top:14px;
+    text-align: center;
+    font-size: 26px;
+}
+.nav-div{
+    border-bottom: 1px solid black;
+    padding:12px 20px;
+}
+
+  #main-doc {
+    position: absolute;
+    margin-left: 310px;
+    padding-left: 20px;
+    padding-right: 80px;
+    width: calc(100vw - 310px);
+    margin-bottom: 110px;
+  }
+section > header{
+    margin-left: -20px;
+    font-size: 32px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+section > p {
+    margin-bottom: 16px;
+}
+section > ul {
+    margin-left: 80px;
+    margin-bottom: 20px;
+}
+
+section > ul > li{
+    margin-bottom: 10px;
+}
+section > code{
+    
+    margin-left: 80px;
+}
+code{
+    display: block;
+    margin-bottom: 10px;
+}
+li > ul {
+    padding-left: 20px;
+}
+li> ul > li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+  @media (max-width:788){
+  }
