@@ -47,6 +47,7 @@ const updateScore = (selectedValue, achieved) => {
   scoreHistory.innerHTML += `<li>${achieved} : ${selectedValue}</li>`;
 };
 
+
 const getHighestDuplicates = (arr) => {
   const counts = {};
 
@@ -80,7 +81,7 @@ const getHighestDuplicates = (arr) => {
     updateRadioOption(0, sumOfAllDice);
   }
 
-  updateRadioOption(5, 0);
+  
 };
 
 const detectFullHouse = (arr) => {
@@ -97,7 +98,24 @@ const detectFullHouse = (arr) => {
     updateRadioOption(2, 25);
   }
 
-  updateRadioOption(5, 0);
+};
+
+const checkForStraights = (arr) => {
+  const sortedNumbersArr = arr.sort((a, b) => a - b);
+  const uniqueNumbersArr = [...new Set(sortedNumbersArr)];
+  const uniqueNumbersStr = uniqueNumbersArr.join("");
+
+  const smallStraightsArr = ["1234", "2345", "3456"];
+  const largeStraightsArr = ["12345", "23456"];
+
+  if (smallStraightsArr.some(straight => uniqueNumbersStr.includes(straight))) {
+    updateRadioOption(3, 30);
+  }
+
+  if (largeStraightsArr.includes(uniqueNumbersStr)) {
+    updateRadioOption(4, 40);
+  }
+
 };
 
 const resetRadioOptions = () => {
@@ -130,37 +148,6 @@ const resetGame = () => {
   resetRadioOptions();
 };
 
-const checkForStraights = (arr) => {
-const counts = {};
-
-
-//count occurance
-  for (const num of arr) {
-    counts[num] = counts[num] ? counts[num] + 1 : 1;
-  }
-
-//convert object keys to numbers and sort them
-const keysArr = Object.keys(counts).map(Number).sort((a, b) => a - b);
-
-//how many consecutive
-let counter = 1;
-let maxStreak = 1;
-
-for(let i = 0; i<keysArr.length-1; i++){
-  if(keysArr[i] + 1 === keysArr[i + 1]){
-    counter += 1;
-    maxStreak = Math.max(maxStreak, counter);
-  }else{
-    counter = 1;
-  }
-}
-
-
-
-console.log(keysArr + " " + counter)
-}
-checkForStraights([1, 2, 5, 1, 1, 4]);
-
 rollDiceBtn.addEventListener("click", () => {
   if (rolls === 3) {
     alert("You have made three rolls this round. Please select a score.");
@@ -171,9 +158,13 @@ rollDiceBtn.addEventListener("click", () => {
     updateStats();
     getHighestDuplicates(diceValuesArr);
     detectFullHouse(diceValuesArr);
-
+    checkForStraights(diceValuesArr);
+    updateRadioOption(5, 0);
+    
   }
 });
+
+
 
 rulesBtn.addEventListener("click", () => {
   isModalShowing = !isModalShowing;
