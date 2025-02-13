@@ -61,7 +61,6 @@
             </div>
 
             <div class="screen-container" id="customer-side">
-                <div id="change-due"></div>
                 <label for="cash">
                     <input id="cash" type="number"
                         placeholder="Input an amount">
@@ -69,8 +68,20 @@
                 <button id="purchase-btn">Purchase</button>
             </div>
 
-            <div id="cash-register-content" class="screen-container"></div>
-            <div id="customer-content" class="screen-container"></div>
+            <div id="cash-register-content" class="screen-container">
+                <div class="money-list" id="list-of-money">
+                    <p>Cash register contents</p>
+                    <ul id="register-list">
+                    </ul>
+                </div>
+            </div>
+            <div id="customer-content" class="screen-container">
+                <div class="money-list" id="change-due">
+                    <ul>
+                        
+                    </ul>
+                </div>
+            </div>
 
             <script src="script.js"></script>
         </body>
