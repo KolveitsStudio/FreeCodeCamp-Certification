@@ -2,120 +2,121 @@ const purchaseBtn = document.getElementById("purchase-btn");
 const cashInput = document.getElementById("cash");
 const changeDue = document.getElementById("change-due");
 const screen = document.getElementById("due");
-const registerList = document.getElementById("register-list");
+let registerList = document.getElementById("register-list");
 
-let price = 19.5;
-let cid = [
-  ["PENNY", 1.01],
-  ["NICKEL", 2.05],
-  ["DIME", 3.1],
-  ["QUARTER", 4.25],
-  ["ONE", 90],
-  ["FIVE", 55],
-  ["TEN", 20],
-  ["TWENTY", 60],
+let price = 3.26;
+let cid = [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]];
+
+const moneyValues = [
+  ["PENNY", 0.01],
+  ["NICKEL", 0.05],
+  ["DIME", 0.1],
+  ["QUARTER", 0.25],
+  ["ONE", 1],
+  ["FIVE", 5],
+  ["TEN", 10],
+  ["TWENTY", 20],
   ["ONE HUNDRED", 100]
-];
+  ];
 
-const moneyValues = {
-  PENNY: 0.01,
-  NICKEL: 0.05,
-  DIME: 0.1,
-  QUARTER: 0.25,
-  ONE: 1,
-  FIVE: 5,
-  TEN: 10,
-  TWENTY: 20,
-  "ONE HUNDRED": 100
-};
+  let unitCount = [];
+  let change = 0;
 
-screen.textContent = `due: $${price}`;
-cid.forEach(item => {
-  registerList.innerHTML += `<li>${item[0]}: $${item[1].toFixed(2)}</li>`;
+/*TODO:
+-1.How much money does the cash register have 
+-2.how many coins/bills i have?
+3.how much is the change
+4.how much coins/bills do i give back as change?
+-5.update total cash and coins/bills
+6.unique scenario - i have cash but not precise change to give
+7.unique scenario - i dont have enough cash 
+8.unique scenario - 
+*/
+
+//how many coins/bills does the cash register have?
+const getUnits = () =>{
+    for(let i = 0; i < cid.length; i++){
+    let newArr = (Math.round(cid[i][1]/moneyValues[i][1]))
+    unitCount.push([cid[i][0], newArr])
+  }
+}
+
+//initial display + calculation of money + units
+cid.forEach(el => {
+  registerList.innerHTML += `<p>${el[0]} : $${el[1]}</p>`
+  });
+
+let registerCashAmount = cid.reduce((acc,subArr)=>acc+(subArr[1]),0).toFixed(2)
+getUnits();
+
+//Update cash register contents
+const updateRegister = () => {
+  registerList.innerHTML = "";
+  unitCount = [];
+
+  getUnits();
+  cid.forEach(el=>{registerList.innerHTML += `<p>${el[0]} : $${el[1]}</p>`});
+  registerCashAmount = cid.reduce((acc,subArr)=>acc+(subArr[1]),0).toFixed(2);
+
+}
+purchaseBtn.addEventListener("click", () => {
+  changeCalculation(cashInput.value);
+  updateRegister();
 });
 
-const updateRegisterDisplay = () => {
-  registerList.innerHTML = "";
-  cid.forEach(item => {
-    registerList.innerHTML += `<li>${item[0]}: $${item[1].toFixed(2)}</li>`;
-  });
-};
+const changeCalculation = (input) => {
+  change = Number(input) - price;
+  changeDue.textContent = "Status: OPEN"; // Reset display each time
 
-// Helper to format currency (0.5 remains "0.5" as expected)
-const formatCurrency = value => parseFloat(value.toFixed(2)).toString();
-
-const checkAmount = () => {
-  let cashGiven = Number(cashInput.value);
-  let change = cashGiven - price;
-
-  if (cashGiven < price) {
-    alert("Customer does not have enough money to purchase the item");
-    return;
-  } else if (cashGiven === price) {
+  if (change === 0) {
     changeDue.textContent = "No change due - customer paid with exact cash";
     return;
   }
 
-  // Save a copy of the original cash drawer (used for CLOSED status)
-  const originalCid = JSON.parse(JSON.stringify(cid));
-  let originalTotal = originalCid.reduce((sum, curr) => sum + curr[1], 0);
-  originalTotal = Math.round(originalTotal * 100) / 100;
+  if (change > 0) {
+    let totalCashAvailable = cid.reduce((sum, bill) => sum + bill[1], 0).toFixed(2);
 
-  // Check if total in drawer is less than required change
-  let totalInDrawer = cid.reduce((sum, curr) => sum + curr[1], 0);
-  totalInDrawer = Math.round(totalInDrawer * 100) / 100;
-  if (totalInDrawer < change) {
-    changeDue.textContent = "Status: INSUFFICIENT_FUNDS";
-    return;
-  }
+    if (change > totalCashAvailable) {
+      changeDue.textContent = "Status: INSUFFICIENT_FUNDS";
+      return;
+    }
 
-  let changeGiven = [];
-  // Process denominations from highest to lowest
-  for (let i = cid.length - 1; i >= 0; i--) {
-    let currency = cid[i][0];
-    let totalAmount = cid[i][1];
-    let unitValue = moneyValues[currency];
+    unitCount = [];
+    getUnits();
 
-    if (change >= unitValue) {
-      let maxBills = Math.floor(change / unitValue);
-      let availableBills = Math.floor(totalAmount / unitValue);
-      let billsToUse = Math.min(maxBills, availableBills);
+    for (let i = unitCount.length - 1; i >= 0; i--) {
+      let activeBill = unitCount[i];
+      let billName = activeBill[0];
+      let maxBills = activeBill[1];
+      let billValue = moneyValues[i][1];
 
-      if (billsToUse > 0) {
-        let amountUsed = billsToUse * unitValue;
-        changeGiven.push([currency, amountUsed]);
-        change -= amountUsed;
-        change = Math.round(change * 100) / 100;
-        cid[i][1] -= amountUsed;
-        cid[i][1] = Math.round(cid[i][1] * 100) / 100;
+      let billsToGive = Math.min(Math.floor(change / billValue), maxBills);
+
+      if (billsToGive > 0) {
+        let totalGiven = billsToGive * billValue;
+        change -= totalGiven;
+        change = Number(change.toFixed(2));
+
+        changeDue.textContent += ` ${billName}: $${(totalGiven % 1 === 0 ? totalGiven.toFixed(0) : totalGiven.toFixed(2))}`;
+
+
+
+        cid[i][1] -= totalGiven;
+        cid[i][1] = Number(cid[i][1].toFixed(2)); 
       }
     }
-  }
 
-  // If unable to return exact change, show insufficient funds.
-  if (change > 0) {
-    changeDue.textContent = "Status: INSUFFICIENT_FUNDS";
-  } else {
-    // Determine if the drawer is now empty (CLOSED) or not (OPEN)
-    let remainingTotal = cid.reduce((sum, curr) => sum + curr[1], 0);
-    remainingTotal = Math.round(remainingTotal * 100) / 100;
-
-    if (remainingTotal === 0) {
-      // For CLOSED status, output only denominations that originally had money.
-      let closedOutput = originalCid
-        .filter(item => item[1] > 0)
-        .map(item => `${item[0]}: $${formatCurrency(item[1])}`)
-        .join(" ");
-      changeDue.textContent = `Status: CLOSED ${closedOutput}`;
-    } else {
-      let changeText = changeGiven
-        .map(item => `${item[0]}: $${formatCurrency(item[1])}`)
-        .join(" ");
-      changeDue.textContent = `Status: OPEN ${changeText}`;
+    let remainingCash = cid.reduce((sum, bill) => sum + bill[1], 0).toFixed(2);
+    
+    if (change === 0 && remainingCash == 0) {  
+      changeDue.textContent = "Status: CLOSED" + changeDue.textContent.replace("Status: OPEN", "");
+      }
+ else if (change > 0) {  
+      changeDue.textContent = "Status: INSUFFICIENT_FUNDS";  
     }
+  } else if (change < 0) {
+    alert("Customer does not have enough money to purchase the item");
+  } else {
+    changeDue.textContent = "Status: CLOSED";
   }
-
-  updateRegisterDisplay();
 };
-
-purchaseBtn.addEventListener("click", checkAmount);
