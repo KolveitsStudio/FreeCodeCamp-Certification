@@ -20,16 +20,30 @@ const getPokemon = (str) => {
   fetch("https://pokeapi-proxy.freecodecamp.rocks/api/pokemon")
   .then(response => response.json())
   .then(data => {
-    const pokemon = data.results.find(p => p.name === str.toLowerCase());
-    if (!pokemon) {
-      alert("Pokémon not found")
-  pokemonId.textContent = "Pokémon not found";
-  pokemonType.textContent = "";
-  pokemonName.textContent = "";
-  pokemonType.innerHTML = "";
-  pokemonImg.src = "";
-  return;
-}
+    let pokemon = null;
+
+    const idOrStr = str => {
+      if(!str){return}
+      else if(!isNaN(str)){
+        return pokemon = data.results.find(p => p.id === Number(str));
+      }else{
+        return pokemon = data.results.find(p => p.name === str.toLowerCase());
+      }  
+    }
+    
+    idOrStr(str)
+
+    if(!pokemon){
+        alert("Pokémon not found")
+      pokemonId.textContent = "Pokémon not found";
+      pokemonType.textContent = "";
+      pokemonName.textContent = "";
+      pokemonType.innerHTML = "";
+      pokemonImg.src = "";
+      return;
+    }
+    
+    
 return fetch(`https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/${pokemon.id}`)
 .then(response => response.json())
 .then(pokemonDetails => {
@@ -38,16 +52,19 @@ return fetch(`https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/${pokemon.id}
   pokemonName.textContent = pokemonDetails.name;
   pokemonWeight.textContent = `Weight: ${pokemonDetails.weight}`;
   pokemonHeight.textContent = `Height: ${pokemonDetails.height}`;
-  pokemonImg.innerHTML = `<img id="sprite" src="${pokemonDetails.sprites.front_default}" alt"${pokemonDetails.name}"></img>`;
-  pokemonType.innerHTML = `<div>${pokemonDetails.types[0].type.name}</div>`;
-  pokemonHp.textContent = pokemonDetails.stats[0].base_stat;
+  pokemonImg.innerHTML = `<img id="sprite" src="${pokemonDetails.sprites.front_default}" alt="${pokemonDetails.name}"></img>`;
+  if(pokemonDetails.types.length === 1){
+    pokemonType.innerHTML = `<div>${pokemonDetails.types[0].type.name}</div>`
+  }else{
+    pokemonType.innerHTML = `<div>${pokemonDetails.types[0].type.name}</div>
+    <div>${pokemonDetails.types[1].type.name}</div>`
+  }
+    pokemonHp.textContent = pokemonDetails.stats[0].base_stat;
   pokemonAttack.textContent = pokemonDetails.stats[1].base_stat;
   pokemonDefense.textContent = pokemonDetails.stats[2].base_stat;
   pokemonSpecialAttack.textContent = pokemonDetails.stats[3].base_stat;
   pokemonSpecialDefense.textContent = pokemonDetails.stats[4].base_stat;
   pokemonSpeed.textContent = pokemonDetails.stats[5].base_stat;
-  
-  console.log(pokemonDetails.stats)
 })
   
      
@@ -55,9 +72,6 @@ return fetch(`https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/${pokemon.id}
   })
   .catch(error => console.error(error))
 }
-
-
-getPokemon("pikachu")
 
 
 searchButton.addEventListener("click", ()=>{
