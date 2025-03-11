@@ -18,12 +18,33 @@
       .#{$color}-bg {background-color: $color;}
     }
 
+$x:1;
+
+@while $x < 6 {
+    .text-#{$x} {font-size: 15px * $x}
+  $x: $x + 1;
+}
+
+
+
+
   #box {
     width: 150px;
     height: 150px;
     background-color: red;
     @include border-stroke(medium);
   }
+
+.info{
+    width: 200px;
+    border: 1px solid black;
+    margin: 0 auto;
+  }
+  .info-important{
+  @extend .info;
+  background-color: magenta;
+  }
+
 </style>
 
 <div id="box"></div>
