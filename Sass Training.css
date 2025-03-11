@@ -14,6 +14,10 @@
   .text-#{$i} { font-size : 15px * $i}
 }
 
+@each $color in blue, black, red{
+      .#{$color}-bg {background-color: $color;}
+    }
+
   #box {
     width: 150px;
     height: 150px;
@@ -29,3 +33,8 @@
 <p class="text-3">Hello</p>
 <p class="text-4">Hello</p>
 <p class="text-5">Hello</p>
+
+
+<div class="blue-bg"></div>
+<div class="black-bg"></div>
+<div class="red-bg"></div>
