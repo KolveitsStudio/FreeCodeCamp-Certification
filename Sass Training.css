@@ -6,16 +6,16 @@ background-color:$bg-color;
 
 }
 #square {
-  @include shape(50px,50px,red)
+  @include shape(50px, 50px, red);
 
 }
 
 #rect-a {
-  @include shape(100px,50px,blue)
+  @include shape(100px, 50px, blue);
 }
 
 #rect-b {
-  @include shape(50px,100px,orange)
+  @include shape(50px, 100px, orange);
 }
 </style>
 
