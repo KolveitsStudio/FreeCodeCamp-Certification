@@ -1,17 +1,24 @@
 <style type='text/scss'>
-  .blog-post {
-  h1 {
-    text-align: center;
-    color: blue;
-  }
-  p {
-    font-size: 20px;
-  }
-  }
-  
+@mixin shape($w,$h,$bg-color){
+width:$w;
+height:$h;
+background-color:$bg-color;
+
+}
+#square {
+  @include shape(50px,50px,red)
+
+}
+
+#rect-a {
+  @include shape(100px,50px,blue)
+}
+
+#rect-b {
+  @include shape(50px,100px,orange)
+}
 </style>
 
-<div class="blog-post">
-  <h1>Blog Title</h1>
-  <p>This is a paragraph</p>
-</div>
+<div id="square"></div>
+<div id="rect-a"></div>
+<div id="rect-b"></div>
