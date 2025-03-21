@@ -3,11 +3,6 @@ class MyComponent extends React.Component {
     super(props);
   }
   render() {
-    // Change code below this line
-
-
-
-    // Change code above this line
   }
 };
 
@@ -19,19 +14,16 @@ class TypesOfFood extends React.Component {
     return (
       <div>
         <h1>Types of Food:</h1>
-        {/* Change code below this line */}
           <Fruits/>
           <Vegetables/>
-        {/* Change code above this line */}
       </div>
     );
   }
 };
 
-// Change code below this line
+
 ReactDOM.render(<TypesOfFood/>,document.getElementById("challenge-node"))
 
-// Change code below this line
 class MyComponent extends React.Component{
   constructor(props){
     super(props);
@@ -50,9 +42,7 @@ ReactDOM.render(<MyComponent/>,document.getElementById("challenge-node"))
 const CurrentDate = (props) => {
   return (
     <div>
-      { /* Change code below this line */ }
       <p>The current date is: {props.date}</p>
-      { /* Change code above this line */ }
     </div>
   );
 };
@@ -65,18 +55,14 @@ class Calendar extends React.Component {
     return (
       <div>
         <h3>What date is it?</h3>
-        { /* Change code below this line */ }
         <CurrentDate date={Date()}/>
-        { /* Change code above this line */ }
       </div>
     );
   }
 };
 
 const List = (props) => {
-  { /* Change code below this line */ }
   return <p>{props.tasks.join(', ')}</p>
-  { /* Change code above this line */ }
 };
 
 class ToDo extends React.Component {
@@ -88,11 +74,9 @@ class ToDo extends React.Component {
       <div>
         <h1>To Do Lists</h1>
         <h2>Today</h2>
-        { /* Change code below this line */ }
         <List tasks = {["walk dog", "workout"]}/>
         <h2>Tomorrow</h2>
         <List tasks = {["walk dog", "workout", "eat", "game"]}/>
-        { /* Change code above this line */ }
       </div>
     );
   }
@@ -111,9 +95,7 @@ class ShoppingCart extends React.Component {
     super(props);
   }
   render() {
-    { /* Change code below this line */ }
     return <Items quantity = {10}/>
-    { /* Change code above this line */ }
   }
 };
 
@@ -125,9 +107,7 @@ class App extends React.Component {
   render() {
     return (
         <div>
-            { /* Change code below this line */ }
-            <Welcome name = {" "}/>
-            { /* Change code above this line */ }
+            {}
         </div>
     );
   }
@@ -141,9 +121,7 @@ class Welcome extends React.Component {
   render() {
     return (
         <div>
-          { /* Change code below this line */ }
           <p>Hello, <strong>{this.props.name}</strong>!</p>
-          { /* Change code above this line */ }
         </div>
     );
   }
@@ -161,7 +139,6 @@ class CampSite extends React.Component {
     );
   }
 };
-// Change code below this line
 const Camper = (props) => {
   return <p>{props.name}</p>
 }
@@ -170,4 +147,36 @@ Camper.defaultProps = {
 };
 Camper.propTypes = {
   name: PropTypes.string.isRequired
+};
+
+      //STATES
+ class StatefulComponent extends React.Component {
+  constructor(props) {
+    super(props);
+this.state = {
+  firstName : "Ralfs"
+}
+  }
+  render() {
+    return (
+      <div>
+        <h1>{this.state.firstName}</h1>
+      </div>
+    );
+  }
+};
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: 'freeCodeCamp'
+    }
+  }
+  render() {
+    return (
+      <div>
+          <h1>{this.state.name}</h1>
+      </div>
+    );
+  }
 };
